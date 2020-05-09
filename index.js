@@ -138,24 +138,24 @@ function geteqk(url, callback) {
 setInterval(function () { // 반복 되는 타이머를 선언
     // 미소지진 갱신
     geteqk('https://www.weather.go.kr/weather/earthquake_volcano/ajaxEqkMicroPopup.jsp', function (d) {// 콜백을 받으면
-        if (d && eqkdata[1] && eqkdata[1] != d) { // d 매개변수에 값이 있고 eqkdata[1] 변수에 값이 있고 eqkdata[1] 변수의 값과 d 매개변수의 값이 다른경우
+        if (d && eqkdata[0] && eqkdata[0] != d) { // d 매개변수에 값이 있고 eqkdata[1] 변수에 값이 있고 eqkdata[1] 변수의 값과 d 매개변수의 값이 다른경우
             //d = d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").trim().replace(/(<([^>]+)>)/g, "");
             ps('meqk.mp3'); // 알림음(TTS 포함) 재생
             //console.log("<< 기상청 미소지진정보 >>\n" + d.insert(20, '\n'));
-            eqkdata[1] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[1] 변수에 d 매개변수의 값을 대입
+            eqkdata[0] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[1] 변수에 d 매개변수의 값을 대입
         } else { // 위의 조건이 거짓이라면
-            eqkdata[1] = d; // eqkdata[1] 변수에 d 매개변수의 값을 대입
+            eqkdata[0] = d; // eqkdata[1] 변수에 d 매개변수의 값을 대입
         }
     });
     // 여진정보 갱신
     geteqk('https://www.weather.go.kr/weather/earthquake_volcano/ajaxEqkNoticePopup.jsp', function (d) {
-        if (d && eqkdata[2] && eqkdata[2] != d) { // d 매개변수에 값이 있고 eqkdata[2] 변수에 값이 있고 eqkdata[2] 변수의 값과 d 매개변수의 값이 다른경우
+        if (d && eqkdata[1] && eqkdata[1] != d) { // d 매개변수에 값이 있고 eqkdata[2] 변수에 값이 있고 eqkdata[2] 변수의 값과 d 매개변수의 값이 다른경우
             //d = d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").replace(/· /g, "\n· ").replace(/※ /g, "\n※ ").trim().replace(/(<([^>]+)>)/g, "");
             ps('aeqk.mp3');  // 알림음(TTS 포함) 재생
             //console.log("<< 기상청 국내여진정보 >>\n" + d);
-            eqkdata[2] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[1] 변수에 d 매개변수의 값을 대입
+            eqkdata[1] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[1] 변수에 d 매개변수의 값을 대입
         } else { // 위의 조건이 거짓이라면
-            eqkdata[2] = d;  // eqkdata[2] 변수에 d 매개변수의 값을 대입
+            eqkdata[1] = d;  // eqkdata[2] 변수에 d 매개변수의 값을 대입
         }
     });
 }, 1000); // 타이머 딜레이를  1000밀리초 = 1초로 설정
