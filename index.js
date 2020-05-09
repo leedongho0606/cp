@@ -1,4 +1,4 @@
-/*
+/* INFO:
     Custom Ver 1.1
     Custom by DISCORD: LDH0606#7291
 
@@ -6,11 +6,11 @@
     본 스크립트 파일의 원본코드를 커스텀화한 코드는 업로더에게 있을을 알립니다!
     문제가 있을경우 내리도록 하겠습니다!!
 */
-
-const giturl = 'https://raw.githubusercontent.com/leedongho0606/cp/master/sound/';
-let stahml = { 'h': 0, 'm': 0, 'l': 0 };
-let stammi = [];
-let eqkdata = [];
+let cver = '1.1'; // 임시 cver변수(고정)의 값 선언
+const giturl = 'https://raw.githubusercontent.com/leedongho0606/cp/master/sound/'; // giturl변수(고정)의 값 선언
+let stahml = { 'h': 0, 'm': 0, 'l': 0 }; // stahml변수의 초기값 선언
+let stammi = []; // stammi변수의 초기값 선언
+let eqkdata = []; // eqkdata변수의 초기값 선언
 
 // insert 메서드 생성
 String.prototype.insert = function (index, string) {
@@ -22,8 +22,8 @@ String.prototype.insert = function (index, string) {
 
 // iframe의 map_area 클래스에 커스텀 css,html 코드 삽입
 let div = iframe.document.getElementsByClassName('map_area')[0]; // iframe의 document에서 map_area 클래스를 찾아 변수 div에 대입
-div.innerHTML = div.innerHTML + "<style>.map_area .jindo{position:absolute;left:0;top:0;width:55px;z-index:10;font-size:50px;letter-spacing:-.1em; text-align: center;}.map_area .high{position:absolute;right:5px;top:0px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FF0000;}.map_area .mid{position:absolute;right:5px;top:30px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FFFF00;}.map_area .low{position:absolute;right:5px;top:60px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#92D050;}.map_area .byldh{position:absolute;right:0px;bottom:0px;width:200px;z-index:10;font-size:17px;letter-spacing:-.1em; text-align: right; color:rgb(0, 0, 255);}</style><div class='jindo'>1</div><div class='high'>강 : 0</div><div class='mid'>중 : 0</div><div class='low'>약 : 0</div><div class='byldh'>V1.0<br>Custom by LDH0606#7291</div><audio id='cps' style='display:hidden'><source src='' type='audio/mp3'></audio><audio id='tts' style='display:hidden'><source src='' type='audio/mp3'></audio>"; //커스텀 css,html 코드 삽입
-delete div; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제
+div.innerHTML = div.innerHTML + "<style>.map_area .jindo{position:absolute;left:0;top:0;width:55px;z-index:10;font-size:50px;letter-spacing:-.1em; text-align: center;}.map_area .high{position:absolute;right:5px;top:0px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FF0000;}.map_area .mid{position:absolute;right:5px;top:30px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FFFF00;}.map_area .low{position:absolute;right:5px;top:60px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#92D050;}.map_area .byldh{position:absolute;right:0px;bottom:0px;width:200px;z-index:10;font-size:17px;letter-spacing:-.1em; text-align: right; color:rgb(0, 0, 255);}</style><div class='jindo'>1</div><div class='high'>강 : 0</div><div class='mid'>중 : 0</div><div class='low'>약 : 0</div><div class='byldh'>V" + cver + "<br>Custom by LDH0606#7291</div><audio id='cps' style='display:hidden'><source src='' type='audio/mp3'></audio><audio id='tts' style='display:hidden'><source src='' type='audio/mp3'></audio>"; //커스텀 css,html 코드 삽입
+div = null; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제(이론상으론 부담을 덜수있을거같으나 실제 효과는 의문)
 
 // iframe내의 fn_alarm 함수 오버라이딩하여 커스텀
 iframe.fn_alarm = function (rIdx) {
@@ -35,36 +35,36 @@ iframe.fn_alarm = function (rIdx) {
             alarm.src = giturl + 'normal.mp3'; // 주의음 URL으로 설정
         }
         alarm.play(); // 재생
-        delete alarm; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제
+        alarm = null; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제(이론상으론 부담을 덜수있을거같으나 실제 효과는 의문)
     }
 }
 
 // 커스텀 함수 ps 선언
 ps = function (url) {
     // TMI: cps는 custom play sound의 약자
-    let cps = iframe.document.getElementById('cps');  // iframe의 document에서 cps id를 찾아 변수 alarm에 대입
+    let cps = iframe.document.getElementById('cps'); // iframe의 document에서 cps id를 찾아 변수 alarm에 대입
     cps.src = giturl + url; // giturl변수의 값(문자)와 url 매개변수의 값(문자)를 서로 대입 하여 URL 설정
     cps.play(); // 재생
-    delete cps; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제
+    cps = null; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제(이론상으론 부담을 덜수있을거같으나 실제 효과는 의문)
 }
 
 // iframe내의 fn_drawSta 함수 오버라이딩하여 커스텀
 iframe.fn_drawSta = function (sta) {
-    let img = iframe.document.getElementById('img');
-    let canS = iframe.document.getElementById('canS');
+    let img = iframe.document.getElementById('img'); // iframe의 document에서 img id를 찾아 변수 img에 대입
+    let canS = iframe.document.getElementById('canS'); // iframe의 document에서 canS id를 찾아 변수 canS에 대입
     let ctxS = iframe.canS.getContext('2d');
-    let canB = iframe.document.getElementById('canB');
+    let canB = iframe.document.getElementById('canB'); // iframe의 document에서 canB id를 찾아 변수 canB에 대입
     let ctxB = iframe.canB.getContext('2d');
     canS.width = canB.width = img.width - 1;
     canS.height = canB.height = img.height - 1;
 
     ctxS.save();
     ctxB.save();
-    ctxB.scale(canB.width / iframe.imgW, canB.width / iframe.imgW);
-    ctxS.scale(canS.width / iframe.imgW, canS.width / iframe.imgW);
+    ctxB.scale(canB.width / iframe.imgW, canB.width / iframe.imgW); // 크기조정
+    ctxS.scale(canS.width / iframe.imgW, canS.width / iframe.imgW); // 크기조정
 
-    ctxS.strokeStyle = '#000000';
-    let cnt = 0;
+    ctxS.strokeStyle = '#000000'; // 윤곽 색상을 검은색으로 설정
+    let cnt = 0; // cnt변수의 값을 0으로 선언
     if (iframe.gridArr.length > 0) {
         for (let i = 38.85; i > 33; i -= 0.05) {
             for (let j = 124.5; j < 132.05; j += 0.05) {
@@ -82,7 +82,7 @@ iframe.fn_drawSta = function (sta) {
         ctxB.clearRect(0, 0, canB.width, canB.height);
     }
 
-    for (let i = 0; i < sta.length; i++) {
+    for (let i = 0; i < sta.length; i++) { // sta의 크기만큼 반복 v1.1 업데이트 당시 기준 관측소 개수는 266.
         if (sta[i].mmi >= 5) { // 진도 5이상인 경우
             stahml['h'] = stahml['h'] + 1; // 강에 1을 추가
         } else if (sta[i].mmi >= 3 && sta[i].mmi <= 4) {  // 진도 3이상 4이하인 경우
@@ -90,16 +90,14 @@ iframe.fn_drawSta = function (sta) {
         } else if (sta[i].mmi == 2) { // 진도 2인경우
             stahml['l'] = stahml['l'] + 1; // 약에 1을 추가
         }
-        // 한반도 지도의 관측소 표시 박스에 색상 입히기
-        ctxS.fillStyle = iframe.mmiColor[sta[i].mmi];
+        ctxS.fillStyle = iframe.mmiColor[sta[i].mmi]; // 한반도 지도의 관측소 표시 박스에 색상 입히기
         ctxS.fillRect(iframe.fn_parseX(sta[i].lon) - 4, iframe.fn_parseY(sta[i].lat) - 4, 10, 10);
         ctxS.strokeRect(iframe.fn_parseX(sta[i].lon) - 4, iframe.fn_parseY(sta[i].lat) - 4, 10, 10);
-        // stammi 변수(배열)에 전체 관측소 진도 임시로 저장
-        stammi.push(sta[i].mmi);
+        stammi.push(sta[i].mmi); // stammi 변수(배열)에 전체 관측소 진도 임시로 저장
     }
 
     ctxB.restore(); ctxB.restore(); ctxS.restore(); ctxS.restore();
-    
+
     let maxmmi = Math.max.apply(null, stammi); // stammi 변수(배열)에서 임시로 저장한 진도 값중 가장 큰값을 뽑음
     if (stahml['h'] >= 1 && stahml['m'] >= 0 && stahml['l'] >= 0) { // 강이 1이상인경우
         ps('beep3.MP3'); // 경고음 재생
@@ -112,7 +110,7 @@ iframe.fn_drawSta = function (sta) {
     iframe.document.getElementsByClassName('jindo')[0].style.backgroundColor = iframe.mmiColor[maxmmi]; // 진도 클래스의 배경색을 진도에 따라 설정 
     if (maxmmi >= 10) { // 진도가 10인경우
         iframe.document.getElementsByClassName('jindo')[0].style.color = '#FFFFFF'; // 진도 클래스의 글자색을 하얀색으로 변경
-    } else {
+    } else { // 위 조건이 거짓 이라면
         iframe.document.getElementsByClassName('jindo')[0].style.color = '#000000'; // 진도 클래스의 글자색을 검은색으로 변경
     }
     iframe.document.getElementsByClassName('high')[0].innerHTML = '강 : ' + Number(stahml['h']); // high 클래스에 강 기준에 맞는 관측소수 표시
@@ -125,7 +123,7 @@ iframe.fn_drawSta = function (sta) {
 // 미소지진, 여진정보 불러오는 함수
 function geteqk(url, callback) {
     let xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function () { // 상태가 변경되었을때 작동하는 함수
         if (xhr.readyState === 4) { // 로딩이 완료되었다면
             if (xhr.status === 200) { // 응답코드가 200(성공) 인경우
                 callback(xhr.responseText) // responseText를 콜백
@@ -137,11 +135,11 @@ function geteqk(url, callback) {
 }
 
 // 미소지진, 여진정보 1초마다 갱신
-setInterval(function(){ // 반복 되는 타이머를 선언
+setInterval(function () { // 반복 되는 타이머를 선언
     // 미소지진 갱신
     geteqk('https://www.weather.go.kr/weather/earthquake_volcano/ajaxEqkMicroPopup.jsp', function (d) {// 콜백을 받으면
         if (d && eqkdata[1] && eqkdata[1] != d) { // d 매개변수에 값이 있고 eqkdata[1] 변수에 값이 있고 eqkdata[1] 변수의 값과 d 매개변수의 값이 다른경우
-            d = d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").trim().replace(/(<([^>]+)>)/g, "");
+            //d = d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").trim().replace(/(<([^>]+)>)/g, "");
             ps('meqk.mp3'); // 알림음(TTS 포함) 재생
             //console.log("<< 기상청 미소지진정보 >>\n" + d.insert(20, '\n'));
             eqkdata[1] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[1] 변수에 d 매개변수의 값을 대입
@@ -152,7 +150,7 @@ setInterval(function(){ // 반복 되는 타이머를 선언
     // 여진정보 갱신
     geteqk('https://www.weather.go.kr/weather/earthquake_volcano/ajaxEqkNoticePopup.jsp', function (d) {
         if (d && eqkdata[2] && eqkdata[2] != d) { // d 매개변수에 값이 있고 eqkdata[2] 변수에 값이 있고 eqkdata[2] 변수의 값과 d 매개변수의 값이 다른경우
-            d = d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").replace(/· /g, "\n· ").replace(/※ /g, "\n※ ").trim().replace(/(<([^>]+)>)/g, "");
+            //d = d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").replace(/· /g, "\n· ").replace(/※ /g, "\n※ ").trim().replace(/(<([^>]+)>)/g, "");
             ps('aeqk.mp3');  // 알림음(TTS 포함) 재생
             //console.log("<< 기상청 국내여진정보 >>\n" + d);
             eqkdata[2] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[1] 변수에 d 매개변수의 값을 대입
@@ -162,4 +160,5 @@ setInterval(function(){ // 반복 되는 타이머를 선언
     });
 }, 1000); // 타이머 딜레이를  1000밀리초 = 1초로 설정
 
-console.log('==========Custom Ver 1.1==========\n==========Custom by DISCORD: LDH0606#7291==========');
+console.log('==========Custom Ver ' + cver + '==========\n==========Custom by DISCORD: LDH0606#7291=========='); // 환영 메시지 출력
+cver = null; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제(이론상으론 부담을 덜수있을거같으나 실제 효과는 의문)
