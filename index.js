@@ -8,6 +8,7 @@ iframe.fn_alarm = function (rIdx) {
             alarm.src = giturl + 'normal.mp3';
         }
         alarm.play();
+        delete alarm;
     }
 }
 
@@ -15,11 +16,11 @@ ps = function (url) {
     let cps = iframe.document.getElementById('cps');
     cps.src = giturl + url;
     cps.play();
+    delete cps;
 }
 
 let stahml = { 'h': 0, 'm': 0, 'l': 0 };
 let stammi = [];
-let testtest = 0;
 iframe.fn_drawSta = function (sta) {
     let img = iframe.document.getElementById('img');
     let canS = iframe.document.getElementById('canS');
@@ -53,14 +54,7 @@ iframe.fn_drawSta = function (sta) {
         ctxB.clearRect(0, 0, canB.width, canB.height);
     }
 
-    if ( testtest == 10 ) {
-        testtest = 0;
-    } else {
-        testtest = testtest + 1
-    }
-
     for (let i = 0; i < sta.length; i++) {
-        sta[i].mmi = testtest;
         if (sta[i].mmi >= 5) {
             stahml['h'] = stahml['h'] + 1;
         } else if (sta[i].mmi >= 3 && sta[i].mmi <= 4) {
@@ -100,3 +94,6 @@ iframe.fn_drawSta = function (sta) {
 
 let div = iframe.document.getElementsByClassName('map_area')[0];
 div.innerHTML = div.innerHTML + "<style>.map_area .jindo{position:absolute;left:0;top:0;width:55px;z-index:10;font-size:50px;letter-spacing:-.1em; text-align: center;}.map_area .high{position:absolute;right:5px;top:0px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FF0000;}.map_area .mid{position:absolute;right:5px;top:30px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FFFF00;}.map_area .low{position:absolute;right:5px;top:60px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#92D050;}.map_area .byldh{position:absolute;right:0px;bottom:0px;width:200px;z-index:10;font-size:17px;letter-spacing:-.1em; text-align: right; color:rgb(0, 0, 255);}</style><div class='jindo'>1</div><div class='high'>강 : 0</div><div class='mid'>중 : 0</div><div class='low'>약 : 0</div><div class='byldh'>V1.0<br>Custom by LDH0606#7291</div><audio id='cps' style='display:hidden'><source src='' type='audio/mp3'></audio>";
+delete div;
+
+console.log('==========Custom Ver 1.0==========\n==========Custom by LDH0606#7291==========');
