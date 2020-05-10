@@ -3,8 +3,10 @@
     Custom by DISCORD: LDH0606#7291
 
     본 스크립트 파일의 원본코드의 저작권은 기상청에 있음을 알립니다!
-    본 스크립트 파일의 원본코드를 커스텀화한 코드는 업로더에게 있을을 알립니다!
+    본 스크립트 파일의 원본코드를 커스텀화한 코드는 업로더가 제작했음을 알립니다!
     문제가 있을경우 내리도록 하겠습니다!!
+    문의는 디스코드 LDH0606#7291로 부탁드립니다.
+    빠르게 답변하겠습니다!
 */
 let cver = '1.2'; // 임시 cver변수의 값 선언
 const giturl = 'https://raw.githubusercontent.com/leedongho0606/cp/master/sound/'; // giturl변수(고정)의 값 선언
