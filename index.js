@@ -7,7 +7,7 @@
     문제가 있을경우 내리도록 하겠습니다!!
 */
 xhr = null; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제(이론상으론 부담을 덜수있을거같으나 실제 효과는 의문)
-let cver = '1.1'; // 임시 cver변수(고정)의 값 선언
+let cver = '1.2'; // 임시 cver변수(고정)의 값 선언
 const giturl = 'https://raw.githubusercontent.com/leedongho0606/cp/master/sound/'; // giturl변수(고정)의 값 선언
 let stahml = { 'h': 0, 'm': 0, 'l': 0 }; // stahml변수의 초기값 선언
 let stammi = []; // stammi변수의 초기값 선언
