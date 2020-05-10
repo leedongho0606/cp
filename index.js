@@ -1,12 +1,12 @@
 /* INFO:
-    Custom Ver 1.2
+    Custom Ver 1.3
     Custom by DISCORD: LDH0606#7291
 
     본 스크립트 파일의 원본코드의 저작권은 기상청에 있음을 알립니다!
     본 스크립트 파일의 원본코드를 커스텀화한 코드는 업로더에게 있을을 알립니다!
     문제가 있을경우 내리도록 하겠습니다!!
 */
-let cver = '1.2'; // 임시 cver변수의 값 선언
+let cver = '1.3'; // 임시 cver변수의 값 선언
 const giturl = 'https://raw.githubusercontent.com/leedongho0606/cp/master/sound/'; // giturl변수(고정)의 값 선언
 let stahml = { 'h': 0, 'm': 0, 'l': 0, 'stalist': [] }; // stahml변수의 초기값 선언
 eqkdata = []; // eqkdata전역변수의 초기값 선언
@@ -20,9 +20,9 @@ String.prototype.insert = function (index, string) {
 };
 
 // iframe의 map_area 클래스에 커스텀 css,html 코드 삽입
-let div = iframe.document.getElementsByClassName('map_area')[0]; // iframe의 document에서 map_area 클래스를 찾아 변수 div에 대입
-div.innerHTML = div.innerHTML + "<style>.map_area .jindo{position:absolute;left:0;top:0;width:55px;z-index:10;font-size:50px;letter-spacing:-.1em; text-align: center;}.map_area .high{position:absolute;right:5px;top:0px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FF0000;}.map_area .mid{position:absolute;right:5px;top:30px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FFFF00;}.map_area .low{position:absolute;right:5px;top:60px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#92D050;}.map_area .byldh{position:absolute;right:0px;bottom:0px;width:200px;z-index:10;font-size:17px;letter-spacing:-.1em; text-align: right; color:#FF4500}</style><div class='jindo'>1</div><div class='high'>강 : 0</div><div class='mid'>중 : 0</div><div class='low'>약 : 0</div><div class='byldh'>V" + cver + "<br>Custom by LDH0606#7291</div><audio id='cps' style='display:hidden'><source src='' type='audio/mp3'></audio><audio id='tts' style='display:hidden'><source src='' type='audio/mp3'></audio>"; //커스텀 css,html 코드 삽입
-div = null; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제(이론상으론 부담을 덜수있을거같으나 실제 효과는 의문)
+let divi = iframe.document.getElementsByClassName('map_area')[0]; // iframe의 document에서 map_area 클래스를 찾아 변수에 대입
+divi.innerHTML = divi.innerHTML + "<style>.map_area .jindo{position:absolute;left:0;top:0;width:55px;z-index:10;font-size:50px;letter-spacing:-.1em; text-align: center;}.map_area .high{position:absolute;right:5px;top:0px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FF0000;}.map_area .mid{position:absolute;right:5px;top:30px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FFFF00;}.map_area .low{position:absolute;right:5px;top:60px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#92D050;}.map_area .byldh{position:absolute;right:0px;bottom:0px;width:200px;z-index:10;font-size:17px;letter-spacing:-.1em; text-align: right; color:#FF4500}</style><div class='jindo'>1</div><div class='high'>강 : 0</div><div class='mid'>중 : 0</div><div class='low'>약 : 0</div><div class='byldh'>V" + cver + "<br>Custom by LDH0606#7291</div><audio id='cps' style='display:hidden'><source src='' type='audio/mp3'></audio><audio id='tts' style='display:hidden'><source src='' type='audio/mp3'></audio><div class='layerPopup' style='display: none; padding: 20px;border: 4px solid rgba(0, 0, 0,0.5);position: absolute;left: 0;bottom: 0;background: rgba(255, 255, 255,0.5);z-index:4;color:rgba(0, 0, 0, 255)'>TEST</div>"; //커스텀 css,html 코드 삽입
+divi = null; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제(이론상으론 부담을 덜수있을거같으나 실제 효과는 의문)
 
 // iframe내의 fn_alarm 함수 오버라이딩하여 커스텀
 iframe.fn_alarm = function (rIdx) {
@@ -133,6 +133,10 @@ function geteqk(url, callback) {
     xhr.send();
 }
 
+iframe.closepopup = function () { // 커스텀 함수 선언
+    iframe.document.body.getElementsByClassName('layerPopup')[0].style.display = 'none'; // 레이어 팝업 클래스의 스타일의 디스플레이 속성의 값을 none으로 설정(숨김)
+}
+
 // 미소지진, 여진정보 1초마다 갱신
 setInterval(function () { // 반복 되는 타이머를 선언
     // 페이즈 (상태) 체크
@@ -149,7 +153,10 @@ setInterval(function () { // 반복 되는 타이머를 선언
     geteqk('https://www.weather.go.kr/weather/earthquake_volcano/ajaxEqkMicroPopup.jsp', function (d) {// 콜백을 받으면
         if (d && eqkdata[0] && eqkdata[0] != d) { // d 매개변수에 값이 있고 eqkdata[0] 변수에 값이 있고 eqkdata[0] 변수의 값과 d 매개변수의 값이 다른경우
             ps('meqk.mp3'); // 알림음(TTS 포함) 재생
-            console.log("<< 기상청 미소지진정보 >>\n" + d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").trim().replace(/(<([^>]+)>)/g, "").insert(20, '\n'));
+            let popup = iframe.document.body.getElementsByClassName('layerPopup')[0];
+            popup.innerHTML = "<< 기상청 미소지진정보 >><br>" + d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").trim().replace(/(<([^>]+)>)/g, "").insert(20, '\n').replace(/\n/g, "<br>") + "<br><button onclick='closepopup();'>닫기</button>";
+            popup.style.display = 'block';
+            popup = null;
             eqkdata[0] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[0] 변수에 d 매개변수의 값을 대입
         } else { // 위의 조건이 거짓이라면
             eqkdata[0] = d; // eqkdata[0] 변수에 d 매개변수의 값을 대입
@@ -159,7 +166,10 @@ setInterval(function () { // 반복 되는 타이머를 선언
     geteqk('https://www.weather.go.kr/weather/earthquake_volcano/ajaxEqkNoticePopup.jsp', function (d) {
         if (d && eqkdata[1] && eqkdata[1] != d) { // d 매개변수에 값이 있고 eqkdata[1] 변수에 값이 있고 eqkdata[1] 변수의 값과 d 매개변수의 값이 다른경우
             ps('aeqk.mp3');  // 알림음(TTS 포함) 재생
-            console.log("<< 기상청 국내여진정보 >>\n" + d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").replace(/· /g, "\n· ").replace(/※ /g, "\n※ ").trim().replace(/(<([^>]+)>)/g, ""));
+            let popup = iframe.document.body.getElementsByClassName('layerPopup')[0];
+            popup.innerHTML = "<< 기상청 국내여진정보 >><br>" + d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").replace(/· /g, "\n· ").replace(/※ /g, "\n※ ").trim().replace(/(<([^>]+)>)/g, "").replace(/\n/g, "<br>") + "<br><button onclick='closepopup();'>닫기</button>";
+            popup.style.display = 'block';
+            popup = null;
             eqkdata[1] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[1] 변수에 d 매개변수의 값을 대입
         } else { // 위의 조건이 거짓이라면
             eqkdata[1] = d;  // eqkdata[1] 변수에 d 매개변수의 값을 대입
