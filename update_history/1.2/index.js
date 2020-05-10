@@ -6,11 +6,9 @@
     본 스크립트 파일의 원본코드를 커스텀화한 코드는 업로더에게 있을을 알립니다!
     문제가 있을경우 내리도록 하겠습니다!!
 */
-xhr = null; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제(이론상으론 부담을 덜수있을거같으나 실제 효과는 의문)
-let cver = '1.2'; // 임시 cver변수(고정)의 값 선언
+let cver = '1.2'; // 임시 cver변수의 값 선언
 const giturl = 'https://raw.githubusercontent.com/leedongho0606/cp/master/sound/'; // giturl변수(고정)의 값 선언
-let stahml = { 'h': 0, 'm': 0, 'l': 0 }; // stahml변수의 초기값 선언
-let stammi = []; // stammi변수의 초기값 선언
+let stahml = { 'h': 0, 'm': 0, 'l': 0, 'stalist': [] }; // stahml변수의 초기값 선언
 eqkdata = []; // eqkdata전역변수의 초기값 선언
 
 // insert 메서드 생성
@@ -23,7 +21,7 @@ String.prototype.insert = function (index, string) {
 
 // iframe의 map_area 클래스에 커스텀 css,html 코드 삽입
 let div = iframe.document.getElementsByClassName('map_area')[0]; // iframe의 document에서 map_area 클래스를 찾아 변수 div에 대입
-div.innerHTML = div.innerHTML + "<style>.map_area .jindo{position:absolute;left:0;top:0;width:55px;z-index:10;font-size:50px;letter-spacing:-.1em; text-align: center;}.map_area .high{position:absolute;right:5px;top:0px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FF0000;}.map_area .mid{position:absolute;right:5px;top:30px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FFFF00;}.map_area .low{position:absolute;right:5px;top:60px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#92D050;}.map_area .byldh{position:absolute;right:0px;bottom:0px;width:200px;z-index:10;font-size:17px;letter-spacing:-.1em; text-align: right; color:rgb(0, 0, 255);}</style><div class='jindo'>1</div><div class='high'>강 : 0</div><div class='mid'>중 : 0</div><div class='low'>약 : 0</div><div class='byldh'>V" + cver + "<br>Custom by LDH0606#7291</div><audio id='cps' style='display:hidden'><source src='' type='audio/mp3'></audio><audio id='tts' style='display:hidden'><source src='' type='audio/mp3'></audio>"; //커스텀 css,html 코드 삽입
+div.innerHTML = div.innerHTML + "<style>.map_area .jindo{position:absolute;left:0;top:0;width:55px;z-index:10;font-size:50px;letter-spacing:-.1em; text-align: center;}.map_area .high{position:absolute;right:5px;top:0px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FF0000;}.map_area .mid{position:absolute;right:5px;top:30px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FFFF00;}.map_area .low{position:absolute;right:5px;top:60px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#92D050;}.map_area .byldh{position:absolute;right:0px;bottom:0px;width:200px;z-index:10;font-size:17px;letter-spacing:-.1em; text-align: right; color:#FF4500}</style><div class='jindo'>1</div><div class='high'>강 : 0</div><div class='mid'>중 : 0</div><div class='low'>약 : 0</div><div class='byldh'>V" + cver + "<br>Custom by LDH0606#7291</div><audio id='cps' style='display:hidden'><source src='' type='audio/mp3'></audio><audio id='tts' style='display:hidden'><source src='' type='audio/mp3'></audio>"; //커스텀 css,html 코드 삽입
 div = null; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제(이론상으론 부담을 덜수있을거같으나 실제 효과는 의문)
 
 // iframe내의 fn_alarm 함수 오버라이딩하여 커스텀
@@ -84,6 +82,7 @@ iframe.fn_drawSta = function (sta) {
     }
 
     for (let i = 0; i < sta.length; i++) { // sta의 크기만큼 반복 v1.1 업데이트 당시 기준 관측소 개수는 266.
+        //테스트 sta[i].mmi = Math.floor(Math.random() * (9 - 0 + 1)) + 0;
         if (sta[i].mmi >= 5) { // 진도 5이상인 경우
             stahml['h'] = stahml['h'] + 1; // 강에 1을 추가
         } else if (sta[i].mmi >= 3 && sta[i].mmi <= 4) {  // 진도 3이상 4이하인 경우
@@ -94,12 +93,12 @@ iframe.fn_drawSta = function (sta) {
         ctxS.fillStyle = iframe.mmiColor[sta[i].mmi]; // 한반도 지도의 관측소 표시 박스에 색상 입히기
         ctxS.fillRect(iframe.fn_parseX(sta[i].lon) - 4, iframe.fn_parseY(sta[i].lat) - 4, 10, 10);
         ctxS.strokeRect(iframe.fn_parseX(sta[i].lon) - 4, iframe.fn_parseY(sta[i].lat) - 4, 10, 10);
-        stammi.push(sta[i].mmi); // stammi 변수(배열)에 전체 관측소 진도 임시로 저장
+        stahml['stalist'].push(sta[i].mmi); // stammi 변수(배열)에 전체 관측소 진도 임시로 저장
     }
 
     ctxB.restore(); ctxB.restore(); ctxS.restore(); ctxS.restore();
 
-    let maxmmi = Math.max.apply(null, stammi); // stammi 변수(배열)에서 임시로 저장한 진도 값중 가장 큰값을 뽑음
+    let maxmmi = Math.max.apply(null, stahml['stalist']); // stahml 변수(배열)에서 임시로 저장한 진도 값중 가장 큰값을 뽑음
     if (stahml['h'] >= 1 && stahml['m'] >= 0 && stahml['l'] >= 0) { // 강이 1이상인경우
         ps('beep3.MP3'); // 경고음 재생
     } else if (stahml['h'] == 0 && stahml['m'] >= 1 && stahml['l'] >= 0) { // 중이 1이상인경우
@@ -117,8 +116,7 @@ iframe.fn_drawSta = function (sta) {
     iframe.document.getElementsByClassName('high')[0].innerHTML = '강 : ' + Number(stahml['h']); // high 클래스에 강 기준에 맞는 관측소수 표시
     iframe.document.getElementsByClassName('mid')[0].innerHTML = '중 : ' + Number(stahml['m']); // mid 클래스에 중 기준에 맞는 관측소수 표시
     iframe.document.getElementsByClassName('low')[0].innerHTML = '약 : ' + Number(stahml['l']); // low 클래스에 약 기준에 맞는 관측소수 표시
-    stahml['h'] = 0; stahml['m'] = 0; stahml['l'] = 0; // stahml 변수 0으로 설정하여 강중약 누적 계산문제 방지
-    stammi = []; // stammi 변수 초기화
+    stahml['h'] = 0; stahml['m'] = 0; stahml['l'] = 0; stahml['stalist'] = [];// stahml 변수 초기화
 }
 
 // 미소지진, 여진정보 불러오는 함수
@@ -127,7 +125,7 @@ function geteqk(url, callback) {
     xhr.onreadystatechange = function () { // 상태가 변경되었을때 작동하는 함수
         if (xhr.readyState === 4) { // 로딩이 완료되었다면
             if (xhr.status === 200) { // 응답코드가 200(성공) 인경우
-                callback(xhr.responseText) // responseText를 콜백
+                callback(xhr.responseText); // responseText를 콜백
             }
         }
     };
@@ -138,12 +136,14 @@ function geteqk(url, callback) {
 // 미소지진, 여진정보 1초마다 갱신
 setInterval(function () { // 반복 되는 타이머를 선언
     // 페이즈 (상태) 체크
-    if (lastphase && lastphase != iframe.phase && iframe.phase == 2) { // 마지막으로 확인된 페이즈값이 존재하고 마지막으로 확인된 페이즈값과 최신 페이즈 값과 다르고 최신 페이즈 값이 2라면
+    if (eqkdata[2] && eqkdata[2] != iframe.phase && iframe.phase == 2) { // 마지막으로 확인된 페이즈값이 존재하고 마지막으로 확인된 페이즈값과 최신 페이즈 값과 다르고 최신 페이즈 값이 2라면
         ps('phase2.mp3'); //지진조기경보가 발령되었습니다.
-        lastphase = iframe.phase; // 알림음 반복 재생 방지를 위하여 lastphase 변수에 최신 페이즈값을 대입
-    } else if (lastphase && lastphase != iframe.phase && iframe.phase == 3) {  // 위의 조건이 거짓이라면 마지막으로 확인된 페이즈값이 존재하고 마지막으로 확인된 페이즈값과 최신 페이즈 값과 다르고 최신 페이즈 값이 3라면
+        eqkdata[2] = iframe.phase; // 알림음 반복 재생 방지를 위하여 eqkdata[2] 변수에 최신 페이즈값을 대입
+    } else if (eqkdata[2] && eqkdata[2] != iframe.phase && iframe.phase == 3) {  // 위의 조건이 거짓이라면 마지막으로 확인된 페이즈값이 존재하고 마지막으로 확인된 페이즈값과 최신 페이즈 값과 다르고 최신 페이즈 값이 3라면
         ps('phase3.mp3'); //지진상세정보가 발표되었습니다.
-        lastphase = iframe.phase; // 알림음 반복 재생 방지를 위하여 lastphase 변수에 최신 페이즈값을 대입
+        eqkdata[2] = iframe.phase; // 알림음 반복 재생 방지를 위하여 eqkdata[2] 변수에 최신 페이즈값을 대입
+    } else { // 위 두 조건이 모두 거짓이라면
+        eqkdata[2] = iframe.phase; // eqkdata[2] 변수에 최신 페이즈값을 대입
     }
     // 미소지진 갱신
     geteqk('https://www.weather.go.kr/weather/earthquake_volcano/ajaxEqkMicroPopup.jsp', function (d) {// 콜백을 받으면
