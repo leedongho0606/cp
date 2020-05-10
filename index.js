@@ -1,11 +1,12 @@
 /* INFO:
-    Custom Ver 1.1
+    Custom Ver 1.2
     Custom by DISCORD: LDH0606#7291
 
     본 스크립트 파일의 원본코드의 저작권은 기상청에 있음을 알립니다!
     본 스크립트 파일의 원본코드를 커스텀화한 코드는 업로더에게 있을을 알립니다!
     문제가 있을경우 내리도록 하겠습니다!!
 */
+xhr = null; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제(이론상으론 부담을 덜수있을거같으나 실제 효과는 의문)
 let cver = '1.1'; // 임시 cver변수(고정)의 값 선언
 const giturl = 'https://raw.githubusercontent.com/leedongho0606/cp/master/sound/'; // giturl변수(고정)의 값 선언
 let stahml = { 'h': 0, 'm': 0, 'l': 0 }; // stahml변수의 초기값 선언
@@ -136,12 +137,19 @@ function geteqk(url, callback) {
 
 // 미소지진, 여진정보 1초마다 갱신
 setInterval(function () { // 반복 되는 타이머를 선언
+    // 페이즈 (상태) 체크
+    if (lastphase && lastphase != iframe.phase && iframe.phase == 2) { // 마지막으로 확인된 페이즈값이 존재하고 마지막으로 확인된 페이즈값과 최신 페이즈 값과 다르고 최신 페이즈 값이 2라면
+        ps('phase2.mp3'); //지진조기경보가 발령되었습니다.
+        lastphase = iframe.phase; // 알림음 반복 재생 방지를 위하여 lastphase 변수에 최신 페이즈값을 대입
+    } else if (lastphase && lastphase != iframe.phase && iframe.phase == 3) {  // 위의 조건이 거짓이라면 마지막으로 확인된 페이즈값이 존재하고 마지막으로 확인된 페이즈값과 최신 페이즈 값과 다르고 최신 페이즈 값이 3라면
+        ps('phase3.mp3'); //지진상세정보가 발표되었습니다.
+        lastphase = iframe.phase; // 알림음 반복 재생 방지를 위하여 lastphase 변수에 최신 페이즈값을 대입
+    }
     // 미소지진 갱신
     geteqk('https://www.weather.go.kr/weather/earthquake_volcano/ajaxEqkMicroPopup.jsp', function (d) {// 콜백을 받으면
         if (d && eqkdata[0] && eqkdata[0] != d) { // d 매개변수에 값이 있고 eqkdata[0] 변수에 값이 있고 eqkdata[0] 변수의 값과 d 매개변수의 값이 다른경우
-            //d = d.split("<p class=\"p_hypen\">")[0].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").trim().replace(/(<([^>]+)>)/g, "");
             ps('meqk.mp3'); // 알림음(TTS 포함) 재생
-            //console.log("<< 기상청 미소지진정보 >>\n" + d.insert(20, '\n'));
+            console.log("<< 기상청 미소지진정보 >>\n" + d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").trim().replace(/(<([^>]+)>)/g, "").insert(20, '\n'));
             eqkdata[0] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[0] 변수에 d 매개변수의 값을 대입
         } else { // 위의 조건이 거짓이라면
             eqkdata[0] = d; // eqkdata[0] 변수에 d 매개변수의 값을 대입
@@ -150,9 +158,8 @@ setInterval(function () { // 반복 되는 타이머를 선언
     // 여진정보 갱신
     geteqk('https://www.weather.go.kr/weather/earthquake_volcano/ajaxEqkNoticePopup.jsp', function (d) {
         if (d && eqkdata[1] && eqkdata[1] != d) { // d 매개변수에 값이 있고 eqkdata[1] 변수에 값이 있고 eqkdata[1] 변수의 값과 d 매개변수의 값이 다른경우
-            //d = d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").replace(/· /g, "\n· ").replace(/※ /g, "\n※ ").trim().replace(/(<([^>]+)>)/g, "");
             ps('aeqk.mp3');  // 알림음(TTS 포함) 재생
-            //console.log("<< 기상청 국내여진정보 >>\n" + d);
+            console.log("<< 기상청 국내여진정보 >>\n" + d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").replace(/· /g, "\n· ").replace(/※ /g, "\n※ ").trim().replace(/(<([^>]+)>)/g, ""));
             eqkdata[1] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[1] 변수에 d 매개변수의 값을 대입
         } else { // 위의 조건이 거짓이라면
             eqkdata[1] = d;  // eqkdata[1] 변수에 d 매개변수의 값을 대입
