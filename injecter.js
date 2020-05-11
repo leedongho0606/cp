@@ -1,5 +1,5 @@
 injected = false;
-const iver = 1.0;
+iver = 1.0;
 function injecter() {
     let xhr = new XMLHttpRequest();
     if (!injected) {
