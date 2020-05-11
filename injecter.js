@@ -2,21 +2,17 @@ injected = false;
 iver = 1.0;
 function injecter() {
     let xhr = new XMLHttpRequest();
-    if (!injected) {
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    eval(xhr.responseText);
-                } else {
-                    alert('커스텀 코드 적용에 실패하였습니다!\n' + xhr.status);
-                }
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                eval(xhr.responseText);
+            } else {
+                alert('커스텀 코드 적용에 실패하였습니다!\n' + xhr.status);
             }
-        };
-        xhr.open('GET', 'https://raw.githubusercontent.com/leedongho0606/cp/master/index.js');
-        xhr.send(null);
-    } else {
-        alert('이미 적용되어있습니다!');
-    }
+        }
+    };
+    xhr.open('GET', 'https://raw.githubusercontent.com/leedongho0606/cp/master/index.js');
+    xhr.send(null);
 }
 function ivercheck() {
     let xhr = new XMLHttpRequest();
