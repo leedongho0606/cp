@@ -1,16 +1,15 @@
 /* INFO:
-    Custom Ver 1.3
+    Custom Ver 1.4
     Custom by DISCORD: LDH0606#7291
 
     본 스크립트 파일의 원본코드의 저작권은 기상청에 있음을 알립니다!
     본 스크립트 파일의 원본코드를 커스텀화한 코드는 업로더에게 있을을 알립니다!
     문제가 있을경우 내리도록 하겠습니다!!
 */
-let cver = '1.3'; // 임시 cver변수의 값 선언
+let cver = '1.4'; // cver변수의 값 선언(현재 버전)
 const giturl = 'https://raw.githubusercontent.com/leedongho0606/cp/master/sound/'; // giturl변수(고정)의 값 선언
 let stahml = { 'h': 0, 'm': 0, 'l': 0, 'stalist': [] }; // stahml변수의 초기값 선언
 eqkdata = []; // eqkdata전역변수의 초기값 선언
-
 // insert 메서드 생성
 String.prototype.insert = function (index, string) {
     if (index > 0) {
@@ -18,12 +17,34 @@ String.prototype.insert = function (index, string) {
     }
     return string + this;
 };
-
 // iframe의 map_area 클래스에 커스텀 css,html 코드 삽입
 let divi = iframe.document.getElementsByClassName('map_area')[0]; // iframe의 document에서 map_area 클래스를 찾아 변수에 대입
-divi.innerHTML = divi.innerHTML + "<style>.map_area .jindo{position:absolute;left:0;top:0;width:55px;z-index:10;font-size:50px;letter-spacing:-.1em; text-align: center;}.map_area .high{position:absolute;right:5px;top:0px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FF0000;}.map_area .mid{position:absolute;right:5px;top:30px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FFFF00;}.map_area .low{position:absolute;right:5px;top:60px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#92D050;}.map_area .byldh{position:absolute;right:0px;bottom:0px;width:200px;z-index:10;font-size:17px;letter-spacing:-.1em; text-align: right; color:#FF4500}</style><div class='jindo'>1</div><div class='high'>강 : 0</div><div class='mid'>중 : 0</div><div class='low'>약 : 0</div><div class='byldh'>V" + cver + "<br>Custom by LDH0606#7291</div><audio id='cps' style='display:hidden'><source src='' type='audio/mp3'></audio><audio id='tts' style='display:hidden'><source src='' type='audio/mp3'></audio><div class='layerPopup' style='display: none; padding: 20px;border: 4px solid rgba(0, 0, 0,0.5);position: absolute;left: 0;bottom: 0;background: rgba(255, 255, 255,0.5);z-index:4;color:rgba(0, 0, 0, 255)'>TEST</div>"; //커스텀 css,html 코드 삽입
-divi = null; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제(이론상으론 부담을 덜수있을거같으나 실제 효과는 의문)
+divi.innerHTML = divi.innerHTML + "<style>.map_area .jindo{position:absolute;left:0;top:0;width:55px;z-index:10;font-size:50px;letter-spacing:-.1em; text-align: center;}.map_area .high{position:absolute;right:5px;top:0px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FF0000;}.map_area .mid{position:absolute;right:5px;top:30px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FFFF00;}.map_area .low{position:absolute;right:5px;top:60px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#92D050;}.map_area .byldh{position:absolute;right:0px;bottom:0px;width:200px;z-index:10;font-size:17px;letter-spacing:-.1em; text-align: right; color:#FF4500}</style><div class='jindo'>1</div><div class='high'>강 : 0</div><div class='mid'>중 : 0</div><div class='low'>약 : 0</div><div class='byldh'>V" + cver + "<br>Custom by LDH0606#7291</div><audio id='cps' style='display:hidden'><source src='' type='audio/mp3'></audio><div class='layerPopup' style='display: none; padding: 20px;border: 4px solid rgba(0, 0, 0, 0.5);position: absolute;left: 0;top: 0;background: rgba(255, 255, 255,0.5);z-index:10;color:rgba(0, 0, 0, 255)'>TEST</div><audio id='tts' style='display:hidden' type='audio/ogg;codecs=opus' src=''></audio>"; //커스텀 css,html 코드 삽입
+divi = null; // 램 최적화
+/*
+convertToCorsUrl = function(url) {
+    var protocol = (window.location.protocol === 'http:' ? 'http:' : 'https:');
+    return protocol + '//cors-anywhere.herokuapp.com/' + url;
+}
 
+// 커스텀 함수 tts 선언
+tts = function (text) {
+    //iframe.document.domain = 'text-to-speech-demo.ng.bluemix.net';
+    let tts = iframe.document.getElementById('tts');
+    tts.src = convertToCorsUrl('text-to-speech-demo.ng.bluemix.net/api/v3/synthesize?text=' + encodeURIComponent(text) + '&amp;voice=ko-KR_YunaVoice&amp;download=true&amp;accept=audio%2Fmp3')
+    tts.play(); // 재생
+    tts = null; // 램 최적화
+    //iframe.document.domain = 'www.weather.go.kr';
+}
+*/
+// 커스텀 함수 ps 선언
+ps = function (url) {
+    // TMI: cps는 custom play sound의 약자
+    let cps = iframe.document.getElementById('cps'); // iframe의 document에서 cps id를 찾아 변수 alarm에 대입
+    cps.src = giturl + url; // giturl변수의 값(문자)와 url 매개변수의 값(문자)를 서로 대입 하여 URL 설정
+    cps.play(); // 재생
+    cps = null; // 램 최적화
+}
 // iframe내의 fn_alarm 함수 오버라이딩하여 커스텀
 iframe.fn_alarm = function (rIdx) {
     if (iframe.alarmReg.indexOf(rIdx) != -1) {
@@ -34,19 +55,30 @@ iframe.fn_alarm = function (rIdx) {
             alarm.src = giturl + 'normal.mp3'; // 주의음 URL으로 설정
         }
         alarm.play(); // 재생
-        alarm = null; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제(이론상으론 부담을 덜수있을거같으나 실제 효과는 의문)
+        alarm = null; // 램 최적화
     }
 }
-
-// 커스텀 함수 ps 선언
-ps = function (url) {
-    // TMI: cps는 custom play sound의 약자
-    let cps = iframe.document.getElementById('cps'); // iframe의 document에서 cps id를 찾아 변수 alarm에 대입
-    cps.src = giturl + url; // giturl변수의 값(문자)와 url 매개변수의 값(문자)를 서로 대입 하여 URL 설정
-    cps.play(); // 재생
-    cps = null; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제(이론상으론 부담을 덜수있을거같으나 실제 효과는 의문)
+// 커스텀 함수 eqkimg 선언
+iframe.eqkimg = function () { // 미소지진발생위치 이미지 함수
+    window.open('https://www.weather.go.kr/repositary/xml/eqk/img/eqk_img_0_' + iframe.document.body.getElementsByClassName('layerPopup')[0].innerText.substring(17, 37).replace(/\//g, "").replace(/:/g, "").replace(" ", "").trim() + '.png', '', 'width=700px, height=600px,resize=yes,scrollbars=no,status=no'); // 새창에 이미지 표시
 }
-
+// 커스텀 함수 closepopup 선언
+iframe.closepopup = function () { // 팝업창 숨기기(닫기) 함수
+    iframe.document.body.getElementsByClassName('layerPopup')[0].style.display = 'none'; // 레이어 팝업 클래스의 스타일의 디스플레이 속성의 값을 none으로 설정(숨김)
+}
+// 미소지진, 여진정보 불러오는 함수
+function geteqk(url, callback) {
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () { // 상태가 변경되었을때 작동하는 함수
+        if (xhr.readyState === 4) { // 로딩이 완료되었다면
+            if (xhr.status === 200) { // 응답코드가 200(성공) 인경우
+                callback(xhr.responseText); // responseText를 콜백
+            }
+        }
+    };
+    xhr.open('GET', url); // 타입을 GET으로 설정하고 URL을 url 매개변수의 값으로 설정
+    xhr.send();
+}
 // iframe내의 fn_drawSta 함수 오버라이딩하여 커스텀
 iframe.fn_drawSta = function (sta) {
     let img = iframe.document.getElementById('img'); // iframe의 document에서 img id를 찾아 변수 img에 대입
@@ -68,7 +100,7 @@ iframe.fn_drawSta = function (sta) {
         for (let i = 38.85; i > 33; i -= 0.05) {
             for (let j = 124.5; j < 132.05; j += 0.05) {
                 ctxB.fillStyle = iframe.mmiColor[Number(iframe.gridArr[cnt])];
-                ctxB.fillRect(fn_parseX(j) - 4, fn_parseY(i) - 7, 8, 8);
+                ctxB.fillRect(iframe.fn_parseX(j) - 4, iframe.fn_parseY(i) - 7, 8, 8);
                 if (Math.abs(myLoc[curLocSel].lat - i) < 0.025 && Math.abs(myLoc[curLocSel].lon - j) < 0.025) {
                     document.getElementById('myMag').innerHTML = iframe.mmi[iframe.gridArr[cnt]];
                     document.getElementById('magBack').setAttribute('mag', iframe.gridArr[cnt]);
@@ -119,24 +151,6 @@ iframe.fn_drawSta = function (sta) {
     stahml['h'] = 0; stahml['m'] = 0; stahml['l'] = 0; stahml['stalist'] = [];// stahml 변수 초기화
 }
 
-// 미소지진, 여진정보 불러오는 함수
-function geteqk(url, callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () { // 상태가 변경되었을때 작동하는 함수
-        if (xhr.readyState === 4) { // 로딩이 완료되었다면
-            if (xhr.status === 200) { // 응답코드가 200(성공) 인경우
-                callback(xhr.responseText); // responseText를 콜백
-            }
-        }
-    };
-    xhr.open('GET', url); // 타입을 GET으로 설정하고 URL을 url 매개변수의 값으로 설정
-    xhr.send();
-}
-
-iframe.closepopup = function () { // 커스텀 함수 선언
-    iframe.document.body.getElementsByClassName('layerPopup')[0].style.display = 'none'; // 레이어 팝업 클래스의 스타일의 디스플레이 속성의 값을 none으로 설정(숨김)
-}
-
 // 미소지진, 여진정보 1초마다 갱신
 setInterval(function () { // 반복 되는 타이머를 선언
     // 페이즈 (상태) 체크
@@ -154,7 +168,7 @@ setInterval(function () { // 반복 되는 타이머를 선언
         if (d && eqkdata[0] && eqkdata[0] != d) { // d 매개변수에 값이 있고 eqkdata[0] 변수에 값이 있고 eqkdata[0] 변수의 값과 d 매개변수의 값이 다른경우
             ps('meqk.mp3'); // 알림음(TTS 포함) 재생
             let popup = iframe.document.body.getElementsByClassName('layerPopup')[0];
-            popup.innerHTML = "<< 기상청 미소지진정보 >><br>" + d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").trim().replace(/(<([^>]+)>)/g, "").insert(20, '\n').replace(/\n/g, "<br>") + "<br><button onclick='closepopup();'>닫기</button>";
+            popup.innerHTML = "<< 기상청 미소지진정보 >><br>" + d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").trim().replace(/(<([^>]+)>)/g, "").insert(20, '\n').replace(/\n/g, "<br>") + "<br><button onclick='closepopup();'>닫기</button><button onclick='eqkimg();'>발생위치 이미지</button>";
             popup.style.display = 'block';
             popup = null;
             eqkdata[0] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[0] 변수에 d 매개변수의 값을 대입
@@ -167,7 +181,7 @@ setInterval(function () { // 반복 되는 타이머를 선언
         if (d && eqkdata[1] && eqkdata[1] != d) { // d 매개변수에 값이 있고 eqkdata[1] 변수에 값이 있고 eqkdata[1] 변수의 값과 d 매개변수의 값이 다른경우
             ps('aeqk.mp3');  // 알림음(TTS 포함) 재생
             let popup = iframe.document.body.getElementsByClassName('layerPopup')[0];
-            popup.innerHTML = "<< 기상청 국내여진정보 >><br>" + d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").replace(/· /g, "\n· ").replace(/※ /g, "\n※ ").trim().replace(/(<([^>]+)>)/g, "").replace(/\n/g, "<br>") + "<br><button onclick='closepopup();'>닫기</button>";
+            popup.innerHTML = "<< 기상청 국내여진정보 >><br>" + d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").replace(/· /g, "\n· ").replace(/※ /g, "\n※ ").trim().replace(/(<([^>]+)>)/g, "").replace(/\n/g, "<br>") + "<br><button onclick='closepopup();'>닫기</button><button onclick='eqkcopy();'>복사</button>";
             popup.style.display = 'block';
             popup = null;
             eqkdata[1] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[1] 변수에 d 매개변수의 값을 대입
@@ -176,6 +190,4 @@ setInterval(function () { // 반복 되는 타이머를 선언
         }
     });
 }, 1000); // 타이머 딜레이를  1000밀리초 = 1초로 설정
-
 console.log('==========Custom Ver ' + cver + '==========\n==========Custom by DISCORD: LDH0606#7291=========='); // 환영 메시지 출력
-cver = null; // 램의 부담을 덜기위해 사용이 끝난 변수는 바로 삭제(이론상으론 부담을 덜수있을거같으나 실제 효과는 의문)

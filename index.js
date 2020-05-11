@@ -6,7 +6,7 @@
     본 스크립트 파일의 원본코드를 커스텀화한 코드는 업로더에게 있을을 알립니다!
     문제가 있을경우 내리도록 하겠습니다!!
 */
-let cver = '1.3'; // cver변수의 값 선언(현재 버전)
+let cver = '1.4'; // cver변수의 값 선언(현재 버전)
 const giturl = 'https://raw.githubusercontent.com/leedongho0606/cp/master/sound/'; // giturl변수(고정)의 값 선언
 let stahml = { 'h': 0, 'm': 0, 'l': 0, 'stalist': [] }; // stahml변수의 초기값 선언
 eqkdata = []; // eqkdata전역변수의 초기값 선언
