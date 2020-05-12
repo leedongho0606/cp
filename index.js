@@ -1,10 +1,10 @@
 /* INFO:
-    Custom Ver 1.5
+    Custom Ver 1.6
     Custom by DISCORD: LDH0606#7291
     본 스크립트 파일의 원본코드의 저작권은 기상청에 있음을 알립니다!
     문제가 있을경우 내리도록 하겠습니다!!
 */
-const cver = '1.5'; // cver변수의 값 선언(현재 버전)
+const cver = '1.6'; // cver변수의 값 선언(현재 버전)
 const giturl = 'https://raw.githubusercontent.com/leedongho0606/cp/master/sound/'; // giturl변수(고정)의 값 선언
 let stahml = { 'h': 0, 'm': 0, 'l': 0, 'stalist': [] }; // stahml변수의 초기값 선언
 eqkdata = []; // eqkdata전역변수의 초기값 선언
@@ -47,6 +47,10 @@ iframe.fn_alarm = function (r) {// iframe내의 fn_alarm 함수 오버라이딩�
         alarm = null; // 램 최적화
     }
 }
+/*
+iframe.eqkMag = 3;
+iframe.fn_alarm(1);
+*/
 iframe.eqkimg = function () { // 미소지진발생위치 이미지 함수
     window.open('https://www.weather.go.kr/repositary/xml/eqk/img/eqk_img_0_' + iframe.document.body.getElementsByClassName('layerPopup')[0].innerText.substring(17, 37).replace(/\//g, "").replace(/:/g, "").replace(" ", "").trim() + '.png', '', 'width=700px, height=600px,resize=yes,scrollbars=no,status=no'); // 새창에 이미지 표시
 }
@@ -118,6 +122,7 @@ iframe.fn_drawSta = function (sta) {// iframe내의 fn_drawSta 함수 오버라�
     iframe.document.getElementsByClassName('low')[0].innerHTML = '약 : ' + Number(stahml['l']); // low 클래스에 약 기준에 맞는 관측소수 표시
     stahml['h'] = 0; stahml['m'] = 0; stahml['l'] = 0; stahml['stalist'] = [];// stahml 변수 초기화
 }
+lasteta = null;
 setInterval(function () { // 미소지진정보갱신, 여진정보갱신, 페이즈 상태 체크 1초마다 작동
     geteqk('https://www.weather.go.kr/weather/earthquake_volcano/ajaxEqkMicroPopup.jsp', function (d) {// 미소지진 갱신
         if (d && eqkdata[0] && eqkdata[0] != d) { // d 매개변수에 값이 있고 eqkdata[0] 변수에 값이 있고 eqkdata[0] 변수의 값과 d 매개변수의 값이 다른경우
@@ -151,6 +156,28 @@ setInterval(function () { // 미소지진정보갱신, 여진정보갱신, 페�
         eqkdata[2] = iframe.phase; // 알림음 반복 재생 방지를 위하여 eqkdata[2] 변수에 최신 페이즈값을 대입
     } else { // 위 두 조건이 모두 거짓이라면
         eqkdata[2] = iframe.phase; // eqkdata[2] 변수에 최신 페이즈값을 대입
+    }
+    // 3분, 2분 30초, 2분, 1분 30초, 60초, 50초, 40초, 30초, 20초, 10, 9, 8, 7, 6 ,5 ,4 ,3 ,2, 1, 도달
+    if (lasteta && lasteta != iframe.eta && iframe.eta >= -1) {
+        if (iframe.phase > 1 && iframe.eta > 0) {
+            if (iframe.eta > 0 && iframe.eta <= 10) {
+                ps('eta' + iframe.eta + '.mp3');
+            } else if (iframe.eta > 10 && iframe.eta <= 60 && Number(String(iframe.eta).charAt(String(iframe.eta).length - 1)) == 0) {
+                ps('eta' + iframe.eta + '.mp3');
+            } else if (iframe.eta == 120) {
+                ps('eta' + iframe.eta + '.mp3');
+            } else if (iframe.eta == 150) {
+                ps('eta' + iframe.eta + '.mp3');
+            } else if (iframe.eta == 180) {
+                ps('eta' + iframe.eta + '.mp3');
+            }
+            //console.log('도달 까지 ' + iframe.eta + '초 남음');
+        } else if (iframe.phase > 1 && iframe.eta == 0) {
+            ps('eta0.mp3'); // 도달
+            //console.log('도달!');
+        }
+    } else {
+        lasteta = iframe.eta;
     }
 }, 1000); // 타이머 딜레이를  1000밀리초 = 1초로 설정
 console.log('==========Custom Ver ' + cver + '==========\n==========Custom by DISCORD: LDH0606#7291=========='); // 환영 메시지 출력
