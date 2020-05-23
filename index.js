@@ -55,10 +55,6 @@ iframe.fn_alarm = function (r) {// iframe내의 fn_alarm 함수 오버라이딩�
     }
     */
 }
-/*
-iframe.eqkMag = 3;
-iframe.fn_alarm(1);
-*/
 iframe.eqkimg = function () { // 미소지진발생위치 이미지 함수
     window.open('https://www.weather.go.kr/repositary/xml/eqk/img/eqk_img_0_' + iframe.document.body.getElementsByClassName('layerPopup')[0].innerText.substring(17, 37).replace(/\//g, "").replace(/:/g, "").replace(" ", "").trim() + '.png', '', 'width=700px, height=600px,resize=yes,scrollbars=no,status=no'); // 새창에 이미지 표시
 }
@@ -104,8 +100,8 @@ iframe.fn_drawSta = function (sta) {// iframe내의 fn_drawSta 함수 오버라�
         } else if (sta[i].mmi == 2) { // 진도 2인경우
             stahml[2] = stahml[2] + 1; // 약에 1을 추가
         }
-        ctxS.fillStyle = iframe.mmiColor[sta[i].mmi]; // 한반도 지도의 관측소 표시 박스에 색상 입히기
-        ctxS.fillRect(iframe.fn_parseX(sta[i].lon) - 4, iframe.fn_parseY(sta[i].lat) - 4, 10, 10);
+        ctxS.fillStyle = iframe.mmiColor[sta[i].mmi]; // 한반도 지도의 관측소 표시 박스에 입힐 색상 지정
+        ctxS.fillRect(iframe.fn_parseX(sta[i].lon) - 4, iframe.fn_parseY(sta[i].lat) - 4, 10, 10); // 한반도 지도의 관측소 표시 박스에 색상 입히기
         ctxS.strokeRect(iframe.fn_parseX(sta[i].lon) - 4, iframe.fn_parseY(sta[i].lat) - 4, 10, 10);
         stahml[3].push(sta[i].mmi) // stammi 변수(배열)에 전체 관측소 진도 임시로 저장
     }
@@ -132,28 +128,32 @@ iframe.fn_drawSta = function (sta) {// iframe내의 fn_drawSta 함수 오버라�
 }
 setInterval(function () { // 미소지진정보갱신, 여진정보갱신, 페이즈 상태 체크 1초마다 작동
     geteqk('https://www.weather.go.kr/weather/earthquake_volcano/ajaxEqkMicroPopup.jsp', function (d) {// 미소지진 갱신
-        if (d && eqkdata[0] != d && eqkdata[0] && d.indexOf('<p class=\"p_hypen\">') >= 0 && d.indexOf('</p>') >= 0) { // d 매개변수에 값이 있고 eqkdata[0] 변수에 값이 있고 eqkdata[0] 변수의 값과 d 매개변수의 값이 다른경우
+        if (d && d.indexOf('<p class=\"p_hypen\">') == -1 && d.indexOf('</p>') == -1) return
+        d = d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").trim().replace(/(<([^>]+)>)/g, "").insert(20, '\n');   
+        if (d && eqkdata[0] != d) { // d 매개변수에 값이 있고 eqkdata[0] 변수에 값이 있고 eqkdata[0] 변수의 값과 d 매개변수의 값이 다른경우
             ps('meqk.mp3'); // 미소 지진 정보가 발표 되었습니다.
-            winalr('기상청 미소지진정보', d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").trim().replace(/(<([^>]+)>)/g, "").insert(20, '\n'));
+            winalr('기상청 미소지진정보', d);
             let popup = iframe.document.body.getElementsByClassName('layerPopup')[0]; // iframe의 document에서 layerPopup 라는 클래스를 찾아 변수에 대입
-            popup.innerHTML = "<< 기상청 미소지진정보 >><br>" + d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").trim().replace(/(<([^>]+)>)/g, "").insert(20, '\n').replace(/\n/g, "<br>") + "<br><button onclick='closepopup();'>닫기</button><button onclick='eqkimg();'>발생위치 이미지</button>"; // 미소지진정보 양식에 맞게 다듬기
+            popup.innerHTML = "<< 기상청 미소지진정보 >><br>" + d.replace(/\n/g, "<br>") + "<br><button onclick='closepopup();'>닫기</button><button onclick='eqkimg();'>발생위치 이미지</button>"; // 미소지진정보 양식에 맞게 다듬기
             popup.style.display = 'block'; // 팝업창 표시
             popup = null; // 램 최적화
             eqkdata[0] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[0] 변수에 d 매개변수의 값을 대입
-        } else if (d && eqkdata[0] == '' && d.indexOf('<p class=\"p_hypen\">') >= 0 && d.indexOf('</p>') >= 0) { // 위의 조건이 거짓이라면
+        } else if (d && eqkdata[0] == '') { // 위의 조건이 거짓이라면
             eqkdata[0] = d; // eqkdata[0] 변수에 d 매개변수의 값을 대입
         }
     });
     geteqk('https://www.weather.go.kr/weather/earthquake_volcano/ajaxEqkNoticePopup.jsp', function (d) {// 여진정보 갱신
-        if (d && eqkdata[1] && d.indexOf('<p class=\"p_hypen\">') >= 0 && d.indexOf('</p>') >= 0 && eqkdata[1] != d) { // d 매개변수에 값이 있고 eqkdata[1] 변수에 값이 있고 eqkdata[1] 변수의 값과 d 매개변수의 값이 다른경우
+        if (d && d.indexOf('<p class=\"p_hypen\">') == -1 && d.indexOf('</p>') == -1) return
+        d = d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").replace(/· /g, "\n· ").replace(/※ /g, "\n※ ").trim().replace(/(<([^>]+)>)/g, "");
+        if (d && eqkdata[1] != d) { // d 매개변수에 값이 있고 eqkdata[1] 변수에 값이 있고 eqkdata[1] 변수의 값과 d 매개변수의 값이 다른경우
             ps('aeqk.mp3'); // 여진 정보가 발표 되었습니다.
-            winalr('기상청 국내여진정보', d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").replace(/· /g, "\n· ").replace(/※ /g, "\n※ ").trim().replace(/(<([^>]+)>)/g, ""));
+            winalr('기상청 국내여진정보', d);
             let popup = iframe.document.body.getElementsByClassName('layerPopup')[0];// iframe의 document에서 layerPopup 라는 클래스를 찾아 변수에 대입
-            popup.innerHTML = "<< 기상청 국내여진정보 >><br>" + d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").replace(/· /g, "\n· ").replace(/※ /g, "\n※ ").trim().replace(/(<([^>]+)>)/g, "").replace(/\n/g, "<br>") + "<br><button onclick='closepopup();'>닫기</button>"; // 여진정보 양식에 맞게 다듬기
+            popup.innerHTML = "<< 기상청 국내여진정보 >><br>" + d.replace(/\n/g, "<br>") + "<br><button onclick='closepopup();'>닫기</button>"; // 여진정보 양식에 맞게 다듬기
             popup.style.display = 'block'; // 팝업창 표시
             popup = null; // 램 최적화
             eqkdata[1] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[1] 변수에 d 매개변수의 값을 대입
-        } else if (d && eqkdata[1] == '' && d.indexOf('<p class=\"p_hypen\">') >= 0 && d.indexOf('</p>') >= 0) { // 위의 조건이 거짓이라면
+        } else if (d && eqkdata[1] == '') { // 위의 조건이 거짓이라면
             eqkdata[1] = d;  // eqkdata[1] 변수에 d 매개변수의 값을 대입
         }
     });// ↓페이즈 (상태) 체크↓
