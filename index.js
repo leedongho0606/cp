@@ -130,7 +130,7 @@ setInterval(function () { // 미소지진정보갱신, 여진정보갱신, 페�
     geteqk('https://www.weather.go.kr/weather/earthquake_volcano/ajaxEqkMicroPopup.jsp', function (d) {// 미소지진 갱신
         if (d && d.indexOf('<p class=\"p_hypen\">') == -1 && d.indexOf('</p>') == -1) return
         d = d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").trim().replace(/(<([^>]+)>)/g, "").insert(20, '\n');   
-        if (d && eqkdata[0] != d) { // d 매개변수에 값이 있고 eqkdata[0] 변수에 값이 있고 eqkdata[0] 변수의 값과 d 매개변수의 값이 다른경우
+        if (d && eqkdata[0] && eqkdata[0] != d) { // d 매개변수에 값이 있고 eqkdata[0] 변수에 값이 있고 eqkdata[0] 변수의 값과 d 매개변수의 값이 다른경우
             ps('meqk.mp3'); // 미소 지진 정보가 발표 되었습니다.
             winalr('기상청 미소지진정보', d);
             let popup = iframe.document.body.getElementsByClassName('layerPopup')[0]; // iframe의 document에서 layerPopup 라는 클래스를 찾아 변수에 대입
@@ -138,14 +138,14 @@ setInterval(function () { // 미소지진정보갱신, 여진정보갱신, 페�
             popup.style.display = 'block'; // 팝업창 표시
             popup = null; // 램 최적화
             eqkdata[0] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[0] 변수에 d 매개변수의 값을 대입
-        } else if (d && eqkdata[0] == '') { // 위의 조건이 거짓이라면
+        } else if (d && !eqkdata[0]) { // 위의 조건이 거짓이라면
             eqkdata[0] = d; // eqkdata[0] 변수에 d 매개변수의 값을 대입
         }
     });
     geteqk('https://www.weather.go.kr/weather/earthquake_volcano/ajaxEqkNoticePopup.jsp', function (d) {// 여진정보 갱신
         if (d && d.indexOf('<p class=\"p_hypen\">') == -1 && d.indexOf('</p>') == -1) return
         d = d.split("<p class=\"p_hypen\">")[1].split("</p>")[0].replace("&#40;", "\n").replace("&#41;", "").replace(/· /g, "\n· ").replace(/※ /g, "\n※ ").trim().replace(/(<([^>]+)>)/g, "");
-        if (d && eqkdata[1] != d) { // d 매개변수에 값이 있고 eqkdata[1] 변수에 값이 있고 eqkdata[1] 변수의 값과 d 매개변수의 값이 다른경우
+        if (d && eqkdata[1] && eqkdata[1] != d) { // d 매개변수에 값이 있고 eqkdata[1] 변수에 값이 있고 eqkdata[1] 변수의 값과 d 매개변수의 값이 다른경우
             ps('aeqk.mp3'); // 여진 정보가 발표 되었습니다.
             winalr('기상청 국내여진정보', d);
             let popup = iframe.document.body.getElementsByClassName('layerPopup')[0];// iframe의 document에서 layerPopup 라는 클래스를 찾아 변수에 대입
@@ -153,7 +153,7 @@ setInterval(function () { // 미소지진정보갱신, 여진정보갱신, 페�
             popup.style.display = 'block'; // 팝업창 표시
             popup = null; // 램 최적화
             eqkdata[1] = d; // 알림음 반복 재생 방지를 위하여 eqkdata[1] 변수에 d 매개변수의 값을 대입
-        } else if (d && eqkdata[1] == '') { // 위의 조건이 거짓이라면
+        } else if (d && !eqkdata[1]) { // 위의 조건이 거짓이라면
             eqkdata[1] = d;  // eqkdata[1] 변수에 d 매개변수의 값을 대입
         }
     });// ↓페이즈 (상태) 체크↓
