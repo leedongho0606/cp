@@ -7,6 +7,8 @@
 4. Console 탭에서 아래 소스 복붙후 엔터<br>
   let xhr = new XMLHttpRequest(); xhr.onreadystatechange = function () { if (xhr.readyState === 4) { if (xhr.status === 200) {     eval(xhr.responseText); } } }; xhr.open('GET', 'https://raw.githubusercontent.com/leedongho0606/cp/master/index.js'); xhr.send();<br><br>
 <b>미리보기</b><br>
-https://youtu.be/XXWvwjAMJlY<br>
+https://youtu.be/XXWvwjAMJlY<br><br>
+<b>테스트 사이트</b><br>
+https://www.weather.go.kr/pews/necismenu.html<br><br>
 문제 있을시 바로 내리겠습니다.<br><br>
 DISCORD : LDH0606#7291<br><br>
