@@ -1,29 +1,31 @@
 /* INFO:
-    Custom Ver 2.2
-    Custom by DISCORD: LDH0606#7291
+    Custom Ver 2.3
+    Custom by DISCORD: LDH0606#4320
     본 스크립트 파일의 원본코드의 저작권은 기상청에 있음을 알립니다!
     문제가 있을경우 내리도록 하겠습니다!!
 */
-const cver = "2.2", giturl = "https://raw.githubusercontent.com/leedongho0606/cp/master/sound/", ifdo = iframe.document; let stahml = [0, 0, 0, []]; eqkdata = []; lasteta = null;
+const cver = "2.3", giturl = "https://raw.githubusercontent.com/leedongho0606/cp/master/sound/";
+let ifdo = iframe.document; 
+let stahml = [0, 0, 0, []]; 
+let eqkdata = []; 
+let lasteta = null;
 String.prototype.insert = function (index, string) {// insert 메서드 생성
     if (index > 0) return this.substring(0, index) + string + this.substring(index, this.length);
     return string + this;
 };
 ifdo.getElementById("img").src = "https://raw.githubusercontent.com/leedongho0606/cp/47d9ec02c8b7bd86ef52df074f4fd268ec98b8ad/img/map.png";
-let divi = ifdo.getElementsByClassName("map_area")[0];
-divi.innerHTML = divi.innerHTML + "<style>.map_area .jindo{position:absolute;left:0;top:0;width:55px;z-index:10;font-size:50px;letter-spacing:-.1em; text-align: center;}.map_area .high{position:absolute;right:5px;top:0px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FF0000;}.map_area .mid{position:absolute;right:5px;top:30px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FFFF00;}.map_area .low{position:absolute;right:5px;top:60px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#92D050;}.map_area .byldh{position:absolute;right:0px;bottom:0px;width:200px;z-index:10;font-size:17px;letter-spacing:-.1em; text-align: right; color:#FF4500}</style><div class='jindo'>1</div><div class='high'>강 : 0</div><div class='mid'>중 : 0</div><div class='low'>약 : 0</div><div class='byldh'>V" + cver + "</div><audio id='cps' style='display:hidden'><source src='' type='audio/mp3'></audio><audio id='cps2' style='display:hidden'><source src='' type='audio/mp3'></audio><audio id='tts' style='display:hidden'><source src='' type='audio/mp3'></audio><div class='layerPopup' style='display: none; padding: 20px;border: 4px solid rgba(0, 0, 0, 0.5);position: absolute;left: 0;top: 0;background: rgba(255, 255, 255,0.5);z-index:10;color:rgba(0, 0, 0, 255)'></div>";
-divi = null;
+ifdo.getElementsByClassName("map_area")[0].innerHTML += "<style>.map_area .jindo{position:absolute;left:0;top:0;width:55px;z-index:10;font-size:50px;letter-spacing:-.1em; text-align: center;}.map_area .high{position:absolute;right:5px;top:0px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FF0000;}.map_area .mid{position:absolute;right:5px;top:30px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FFFF00;}.map_area .low{position:absolute;right:5px;top:60px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#92D050;}.map_area .byldh{position:absolute;right:0px;bottom:0px;width:200px;z-index:10;font-size:17px;letter-spacing:-.1em; text-align: right; color:#FF4500}</style><div class='jindo'>1</div><div class='high'>강 : 0</div><div class='mid'>중 : 0</div><div class='low'>약 : 0</div><div class='byldh'>V" + cver + "</div><audio id='cps' style='display:hidden'><source src='' type='audio/mp3'></audio><audio id='cps2' style='display:hidden'><source src='' type='audio/mp3'></audio><audio id='tts' style='display:hidden'><source src='' type='audio/mp3'></audio><div class='layerPopup' style='display: none; padding: 20px;border: 4px solid rgba(0, 0, 0, 0.5);position: absolute;left: 0;top: 0;background: rgba(255, 255, 255,0.5);z-index:10;color:rgba(0, 0, 0, 255)'></div>";
 function winalr(t, b) {
-    if (Notification.permission !== "granted") return
+    if (Notification.permission !== "granted") return;
     const n = new Notification(t, { body: b, icon: "https://raw.githubusercontent.com/leedongho0606/cp/master/img/logo_gov.png" });
     setTimeout(() => {
-        n.close();
+        if ( n) n.close();
     }, 10000);
 }
 function geteqk(url, callback) {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) if (xhr.status === 200) callback(xhr.responseText);
+        if (xhr.readyState === 4 && xhr.status === 200) callback(xhr.responseText);
     };
     xhr.open("GET", url);
     xhr.send(null);
@@ -51,7 +53,13 @@ iframe.closepopup = () => {
     ifdo.body.getElementsByClassName("layerPopup")[0].style.display = "none";
 }
 iframe.fn_drawSta = sta => {
-    let img = ifdo.getElementById("img"), canS = ifdo.getElementById("canS"), ctxS = iframe.canS.getContext("2d"), canB = ifdo.getElementById("canB"), ctxB = iframe.canB.getContext("2d"), cnt = 0, maxmmi = 0;
+    let img = ifdo.getElementById("img");
+    let canS = ifdo.getElementById("canS");
+    let ctxS = iframe.canS.getContext("2d");
+    let canB = ifdo.getElementById("canB");
+    let ctxB = iframe.canB.getContext("2d");
+    let cnt = 0;
+    let maxmmi = 0;
     canS.width = canB.width = img.width - 1;
     canS.height = canB.height = img.height - 1;
     ctxS.save(); ctxB.save();
@@ -59,8 +67,8 @@ iframe.fn_drawSta = sta => {
     ctxS.scale(canS.width / iframe.imgW, canS.width / iframe.imgW);
     ctxS.strokeStyle = "#000000";
     if (iframe.gridArr.length > 0) {
-        for (var i = 38.85; i > 33; i -= 0.05) {
-            for (var j = 124.5; j < 132.05; j += 0.05) {
+        for (let i = 38.85; i > 33; i -= 0.05) {
+            for (let j = 124.5; j < 132.05; j += 0.05) {
                 ctxB.fillStyle = iframe.mmiColor[Number(iframe.gridArr[cnt])];
                 ctxB.fillRect(iframe.fn_parseX(j) - 4, iframe.fn_parseY(i) - 7, 8, 8);
                 if (Math.abs(iframe.myLoc[iframe.curLocSel].lat - i) < 0.025 && Math.abs(iframe.myLoc[iframe.curLocSel].lon - j) < 0.025) {
@@ -72,7 +80,7 @@ iframe.fn_drawSta = sta => {
             }
         }
     } else ctxB.clearRect(0, 0, canB.width, canB.height);
-    for (var i = 0; i < sta.length; i++) {
+    for (let i = 0; i < sta.length; i++) {
         //테스트*/sta[i].mmi = Math.floor(Math.random() * (9 - 0 + 1)) + 0;
         //테스트2*/sta[i].mmi = 2;
         if (sta[i].mmi >= 5) stahml[0] = stahml[0] + 1;
@@ -95,7 +103,7 @@ iframe.fn_drawSta = sta => {
     ifdo.getElementsByClassName("high")[0].innerHTML = "강 : " + Number(stahml[0]);
     ifdo.getElementsByClassName("mid")[0].innerHTML = "중 : " + Number(stahml[1]);
     ifdo.getElementsByClassName("low")[0].innerHTML = "약 : " + Number(stahml[2]);
-    for (var i = 0; i < stahml.length - 1; i++) stahml[i] = 0;
+    for (let i = 0; i < stahml.length - 1; i++) stahml[i] = 0;
     stahml[3] = [];
 }
 setInterval(() => {
@@ -148,7 +156,5 @@ setInterval(() => {
         eqkdata[2] = iframe.phase;
     } else eqkdata[2] = iframe.phase;
 }, 1000);
-console.clear();
-console.log("==========PEWS Custom==========\n|PEWS Custom", "V" + cver + " Load Success|\n|Custom By LDH0606            |\n|DISCORD : LDH0606#7291       |\n|Github : leedongho0606       |\n==========PEWS Custom==========");
+console.log("==========PEWS Custom==========\n|PEWS Custom", "V" + cver + " Load Success|\n|Custom By LDH0606            |\n|DISCORD : LDH0606#4320       |\n|Github : leedongho0606       |\n==========PEWS Custom==========");
 if (Notification.permission === "denied" || Notification.permission === "default") Notification.requestPermission();
-else winalr("PEWS Custom", "V" + cver + " Load Success!\nCustom By LDH0606\nDISCORD : LDH0606#7291\nGithub : LDH0606");
