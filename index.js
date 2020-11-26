@@ -1,12 +1,12 @@
 /* INFO:
-    Custom Ver 2.3
+    Custom Ver 2.4
     Custom by DISCORD: LDH0606#4320
     본 스크립트 파일의 원본코드의 저작권은 기상청에 있음을 알립니다!
     문제가 있을경우 내리도록 하겠습니다!!
 */
-const cver = "2.3", giturl = "https://raw.githubusercontent.com/leedongho0606/cp/master/sound/";
+const cver = "2.4", giturl = "https://raw.githubusercontent.com/leedongho0606/cp/master/sound/";
 let ifdo = iframe.document; 
-let stahml = [0, 0, 0, []]; 
+let stahml = [0, 0, 0, 0, []]; 
 let eqkdata = []; 
 let lasteta = null;
 String.prototype.insert = function (index, string) {// insert 메서드 생성
@@ -14,7 +14,7 @@ String.prototype.insert = function (index, string) {// insert 메서드 생성
     return string + this;
 };
 ifdo.getElementById("img").src = "https://raw.githubusercontent.com/leedongho0606/cp/47d9ec02c8b7bd86ef52df074f4fd268ec98b8ad/img/map.png";
-ifdo.getElementsByClassName("map_area")[0].innerHTML += "<style>.map_area .jindo{position:absolute;left:0;top:0;width:55px;z-index:10;font-size:50px;letter-spacing:-.1em; text-align: center;}.map_area .high{position:absolute;right:5px;top:0px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FF0000;}.map_area .mid{position:absolute;right:5px;top:30px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FFFF00;}.map_area .low{position:absolute;right:5px;top:60px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#92D050;}.map_area .byldh{position:absolute;right:0px;bottom:0px;width:200px;z-index:10;font-size:17px;letter-spacing:-.1em; text-align: right; color:#FF4500}</style><div class='jindo'>1</div><div class='high'>강 : 0</div><div class='mid'>중 : 0</div><div class='low'>약 : 0</div><div class='byldh'>V" + cver + "</div><audio id='cps' style='display:hidden'><source src='' type='audio/mp3'></audio><audio id='cps2' style='display:hidden'><source src='' type='audio/mp3'></audio><audio id='tts' style='display:hidden'><source src='' type='audio/mp3'></audio><div class='layerPopup' style='display: none; padding: 20px;border: 4px solid rgba(0, 0, 0, 0.5);position: absolute;left: 0;top: 0;background: rgba(255, 255, 255,0.5);z-index:10;color:rgba(0, 0, 0, 255)'></div>";
+ifdo.getElementsByClassName("map_area")[0].innerHTML += "<style>.map_area .jindo{position:absolute;left:0;top:0;width:55px;z-index:10;font-size:50px;letter-spacing:-.1em; text-align: center;}.map_area .high{position:absolute;right:5px;top:0px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FF0000;}.map_area .mid{position:absolute;right:5px;top:30px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#FFFF00;}.map_area .low{position:absolute;right:5px;top:60px;width:100px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#92D050;} .verylow{position:absolute;right:5px;top:90px;width:200px;z-index:10;font-size:30px;letter-spacing:-.1em; text-align: right; color:#9B9B9B;} .map_area .byldh{position:absolute;right:0px;bottom:0px;width:200px;z-index:10;font-size:17px;letter-spacing:-.1em; text-align: right; color:#FF4500}</style><div class='jindo'>1</div><div class='high'>강 : 0</div><div class='mid'>중 : 0</div><div class='low'>약 : 0</div><div class='verylow'>무감 : 0</div><div class='byldh'>V" + cver + "</div><audio id='cps' style='display:hidden'><source src='' type='audio/mp3'></audio><audio id='cps2' style='display:hidden'><source src='' type='audio/mp3'></audio><audio id='tts' style='display:hidden'><source src='' type='audio/mp3'></audio><div class='layerPopup' style='display: none; padding: 20px;border: 4px solid rgba(0, 0, 0, 0.5);position: absolute;left: 0;top: 0;background: rgba(255, 255, 255,0.5);z-index:10;color:rgba(0, 0, 0, 255)'></div>";
 function winalr(t, b) {
     if (Notification.permission !== "granted") return;
     const n = new Notification(t, { body: b, icon: "https://raw.githubusercontent.com/leedongho0606/cp/master/img/logo_gov.png" });
@@ -83,16 +83,17 @@ iframe.fn_drawSta = sta => {
     for (let i = 0; i < sta.length; i++) {
         //테스트*/sta[i].mmi = Math.floor(Math.random() * (9 - 0 + 1)) + 0;
         //테스트2*/sta[i].mmi = 2;
-        if (sta[i].mmi >= 5) stahml[0] = stahml[0] + 1;
-        else if (sta[i].mmi >= 3 && sta[i].mmi <= 4) stahml[1] = stahml[1] + 1;
-        else if (sta[i].mmi == 2) stahml[2] = stahml[2] + 1;
+        if (sta[i].mmi >= 12) stahml[3] += 1;
+        else if (sta[i].mmi >= 5) stahml[0] += 1;
+        else if (sta[i].mmi >= 3 && sta[i].mmi <= 4) stahml[1] += 1;
+        else if (sta[i].mmi == 2) stahml[2] += 1;
         ctxS.fillStyle = iframe.mmiColor[sta[i].mmi];
         ctxS.fillRect(iframe.fn_parseX(sta[i].lon) - 4, iframe.fn_parseY(sta[i].lat) - 4, 10, 10);
         ctxS.strokeRect(iframe.fn_parseX(sta[i].lon) - 4, iframe.fn_parseY(sta[i].lat) - 4, 10, 10);
-        stahml[3].push(sta[i].mmi);
+        stahml[4].push(sta[i].mmi < 12 ? sta[i].mmi : 1);
     }
     ctxB.restore(); ctxB.restore(); ctxS.restore(); ctxS.restore();
-    maxmmi = Math.max.apply(null, stahml[3]);
+    maxmmi = Math.max.apply(null, stahml[4]);
     if (stahml[0] >= 1 && stahml[1] >= 0 && stahml[2] >= 0) ps("beep3.MP3");
     else if (stahml[0] == 0 && stahml[1] >= 1 && stahml[2] >= 0) ps("update.mp3");
     else if (stahml[0] == 0 && stahml[1] == 0 && stahml[2] >= 1) ps("beep.mp3");
@@ -103,8 +104,9 @@ iframe.fn_drawSta = sta => {
     ifdo.getElementsByClassName("high")[0].innerHTML = "강 : " + Number(stahml[0]);
     ifdo.getElementsByClassName("mid")[0].innerHTML = "중 : " + Number(stahml[1]);
     ifdo.getElementsByClassName("low")[0].innerHTML = "약 : " + Number(stahml[2]);
+    ifdo.getElementsByClassName("verylow")[0].innerHTML = "무감 : " + Number(stahml[3]);
     for (let i = 0; i < stahml.length - 1; i++) stahml[i] = 0;
-    stahml[3] = [];
+    stahml[4] = [];
 }
 setInterval(() => {
     if (iframe.phase > 1) {
