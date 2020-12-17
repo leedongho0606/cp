@@ -9,6 +9,6 @@
 <b>미리보기</b><br>
 https://youtu.be/XXWvwjAMJlY<br><br>
 <b>테스트 사이트</b><br>
-https://www.weather.go.kr/pews/necismenu.html<br><br>
+necis에서만 제공되는 사이트이므로 주소를 기재하지 않겠습니다.<br><br>
 문제 있을시 바로 내리겠습니다.<br><br>
-DISCORD : LDH0606#7291<br><br>
+DISCORD : LDH0606#4320<br><br>
